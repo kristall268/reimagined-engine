@@ -70,12 +70,23 @@ target_include_directories(${PROJECT_NAME}
         src
 )
 
-target_link_directories(${PROJECT_NAME}
+target_link_libraries(${PROJECT_NAME}
     PUBLIC
         OpenGL::GL
         glfw
         glm::glm
 )
+
+
+if(FREETYPE_FOUND)
+    target_include_directories(${PROJECT_NAME} PRIVATE ${FREETYPE_INCLUDE_DIRS})
+    target_link_libraries(${PROJECT_NAME} PRIVATE ${FREETYPE_LIBRARIES})
+endif()
+
+if(OPENAL_FOUND)
+    target_include_directories(${PROJECT_NAME} PRIVATE ${OPENAL_INCLUDE_DIRS})
+    target_link_libraries(${PROJECT_NAME} PRIVATE ${OPENAL_LIBRARIES})
+endif()
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE winmm)
@@ -112,6 +123,6 @@ if (BUILD_EXAMPLES)
     )
 
     file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/assets
-        DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+        DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/bin)
 endif()
 
